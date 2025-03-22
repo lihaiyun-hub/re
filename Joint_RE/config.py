@@ -23,7 +23,7 @@ class Config(object):
         # self.bert_path = os.path.join(DIR_BASE, 'data', 'bert_pretrain')
         self.bert_path = 'google-bert/bert-base-chinese'
         self.num_rel = 18  # 关系的种类数
-        self.batch_size = 64
+        self.batch_size = 32
         self.train_data_path = os.path.join(DIR_BASE, 'data', 'train.json')
         self.dev_data_path = os.path.join(DIR_BASE, 'data', 'dev.json')
         self.test_data_path = os.path.join(DIR_BASE, 'data', 'test.json')
