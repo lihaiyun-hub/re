@@ -8,7 +8,7 @@
 from collections import defaultdict
 from random import choice
 
-from Joint_RE.config import *
+from config import *
 
 conf = Config()
 

@@ -5,10 +5,11 @@
 @ 创建时间：2025-03-21
 
 """
+import json
 
 from torch.utils.data import Dataset, DataLoader
 
-from Joint_RE.utils.process import *
+from utils.process import *
 
 conf = Config()
 
