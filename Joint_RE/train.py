@@ -34,7 +34,7 @@ def train_epoch(model, train_iter, dev_iter, optimizer, best_triple_f1, epoch):
         loss.backward()
         optimizer.step()
 
-        if (step + 1) % 1500 == 0:
+        if (step + 1) % 500 == 0:
 
             torch.save(model.state_dict(),
                        os.path.join(conf.save_path, 'epoch_%s_model_%s.pth' % (epoch, step)))
