@@ -11,7 +11,7 @@ import torch.nn as nn
 import torch.optim as optim
 from transformers import BertModel
 
-from Joint_RE.config import *
+from config import *
 
 conf = Config()
 
@@ -26,7 +26,7 @@ def loss(pred, gold, mask):
 class CasRel(nn.Module):
     def __init__(self, conf):
         super().__init__()
-        self.bert = BertModel.from_pretrained(conf.bert_path, config=conf.bert_config)
+        self.bert = BertModel.from_pretrained(conf.bert_path)
         self.sub_heads_linear = nn.Linear(conf.bert_dim, 1)
         self.sub_tails_linear = nn.Linear(conf.bert_dim, 1)
         self.obj_heads_linear = nn.Linear(conf.bert_dim, conf.num_rel)
@@ -81,8 +81,8 @@ class CasRel(nn.Module):
         :param obj_tails: shape-->[16, 200, 18]
         :return:
         """
-        # todo:sub_heads.shape,sub_tails.shape, mask-->[16, 200]
-        # todo:obj_heads.shape,obj_tails.shape-->[16, 200, 18]
+        # sub_heads.shape,sub_tails.shape, mask-->[16, 200]
+        # obj_heads.shape,obj_tails.shape-->[16, 200, 18]
         rel_count = obj_heads.shape[-1]
         rel_mask = mask.unsqueeze(-1).repeat(1, 1, rel_count)
         loss_1 = loss(pred_sub_heads, sub_heads, mask)
