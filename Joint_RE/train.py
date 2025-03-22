@@ -35,10 +35,10 @@ def train_epoch(model, train_iter, dev_iter, optimizer, best_triple_f1, epoch):
         optimizer.step()
 
         if (step + 1) % 100 == 0:
-            print('正在保存模型')
+
             torch.save(model.state_dict(),
                        os.path.join(conf.save_path, 'epoch_%s_model_%s.pth' % (epoch, step)))
-            print('模型保存完毕')
+
             results = model2dev(model, dev_iter)
             print(results[-1])
             if results[-2] > best_triple_f1:
