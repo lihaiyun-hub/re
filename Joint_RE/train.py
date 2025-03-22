@@ -115,24 +115,25 @@ def model2dev(model, dev_iter):
                 if true_obj in pred_objs:
                     df['TP']['triple'] += 1
 
-    df.loc['sub', 'p'] = df['TP']['sub'] / (df['PRED']['sub'] + 1e-9)
-    df.loc['sub', 'r'] = df['TP']['sub'] / (df['REAL']['sub'] + 1e-9)
-    df.loc['sub', 'f1'] = 2 * df['p']['sub'] * df['r']['sub'] / (df['p']['sub'] +
-                                                                 df['r']['sub'] +
-                                                                 1e-9)
-    sub_precision = df['TP']['sub'] / (df['PRED']['sub'] + 1e-9)
-    sub_recall = df['TP']['sub'] / (df['REAL']['sub'] + 1e-9)
+    # 计算 sub 的指标
+    df.loc['sub', 'p'] = df.loc['sub', 'TP'] / (df.loc['sub', 'PRED'] + 1e-9)
+    df.loc['sub', 'r'] = df.loc['sub', 'TP'] / (df.loc['sub', 'REAL'] + 1e-9)
+    df.loc['sub', 'f1'] = 2 * df.loc['sub', 'p'] * df.loc['sub', 'r'] / (df.loc['sub', 'p'] + df.loc['sub', 'r'] + 1e-9)
+
+    # 计算 sub 的中间变量（如果后续需要单独使用）
+    sub_precision = df.loc['sub', 'TP'] / (df.loc['sub', 'PRED'] + 1e-9)
+    sub_recall = df.loc['sub', 'TP'] / (df.loc['sub', 'REAL'] + 1e-9)
     sub_f1 = 2 * sub_precision * sub_recall / (sub_precision + sub_recall + 1e-9)
 
-    df.loc['triple', 'p'] = df['TP']['triple'] / (df['PRED']['triple'] + 1e-9)
-    df.loc['triple', 'r'] = df['TP']['triple'] / (df['REAL']['triple'] + 1e-9)
-    df.loc['triple', 'f1'] = 2 * df['p']['triple'] * df['r']['triple'] / (
-            df['p']['triple'] + df['r']['triple'] + 1e-9)
+    # 计算 triple 的指标
+    df.loc['triple', 'p'] = df.loc['triple', 'TP'] / (df.loc['triple', 'PRED'] + 1e-9)
+    df.loc['triple', 'r'] = df.loc['triple', 'TP'] / (df.loc['triple', 'REAL'] + 1e-9)
+    df.loc['triple', 'f1'] = 2 * df.loc['triple', 'p'] * df.loc['triple', 'r'] / (df.loc['triple', 'p'] + df.loc['triple', 'r'] + 1e-9)
 
-    triple_precision = df['TP']['triple'] / (df['PRED']['triple'] + 1e-9)
-    triple_recall = df['TP']['triple'] / (df['REAL']['triple'] + 1e-9)
-    triple_f1 = 2 * triple_precision * triple_recall / (
-            triple_precision + triple_recall + 1e-9)
+    # 计算 triple 的中间变量（如果后续需要单独使用）
+    triple_precision = df.loc['triple', 'TP'] / (df.loc['triple', 'PRED'] + 1e-9)
+    triple_recall = df.loc['triple', 'TP'] / (df.loc['triple', 'REAL'] + 1e-9)
+    triple_f1 = 2 * triple_precision * triple_recall / (triple_precision + triple_recall + 1e-9)
 
     return sub_precision, sub_recall, sub_f1, triple_precision, triple_recall, triple_f1, df
 
