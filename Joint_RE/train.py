@@ -76,6 +76,10 @@ def model2dev(model, dev_iter):
     # 定义一个df，来展示模型的指标。
     df = pd.DataFrame(columns=['TP', 'PRED', "REAL", 'p', 'r', 'f1'], index=['sub', 'triple'])
     df.fillna(0, inplace=True)
+    # 将需要存储浮点数的列转换为 float 类型
+    df['p'] = df['p'].astype('float64')
+    df['r'] = df['r'].astype('float64')
+    df['f1'] = df['f1'].astype('float64')
     for inputs, labels in tqdm(dev_iter):
         logist = model(**inputs)
         pred_sub_heads = convert_score_to_zero_one(logist['pred_sub_heads'])
