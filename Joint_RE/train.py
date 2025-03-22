@@ -102,18 +102,21 @@ def model2dev(model, dev_iter):
             true_objs = extract_obj_and_rel(obj_heads[batch_index],
                                             obj_tails[batch_index])
 
-            df['PRED']['sub'] += len(pred_subs)
-            df['REAL']['sub'] += len(true_subs)
+            # 更新 sub 相关统计
+            df.loc['sub', 'PRED'] += len(pred_subs)
+            df.loc['sub', 'REAL'] += len(true_subs)
 
             for true_sub in true_subs:
                 if true_sub in pred_subs:
-                    df['TP']['sub'] += 1
+                    df.loc['sub', 'TP'] += 1  # 直接通过 .loc 更新 TP 值
 
-            df['PRED']['triple'] += len(pred_objs)
-            df['REAL']['triple'] += len(true_objs)
+            # 更新 triple 相关统计
+            df.loc['triple', 'PRED'] += len(pred_objs)
+            df.loc['triple', 'REAL'] += len(true_objs)
+
             for true_obj in true_objs:
                 if true_obj in pred_objs:
-                    df['TP']['triple'] += 1
+                    df.loc['triple', 'TP'] += 1
 
     # 计算 sub 的指标
     df.loc['sub', 'p'] = df.loc['sub', 'TP'] / (df.loc['sub', 'PRED'] + 1e-9)
@@ -128,7 +131,8 @@ def model2dev(model, dev_iter):
     # 计算 triple 的指标
     df.loc['triple', 'p'] = df.loc['triple', 'TP'] / (df.loc['triple', 'PRED'] + 1e-9)
     df.loc['triple', 'r'] = df.loc['triple', 'TP'] / (df.loc['triple', 'REAL'] + 1e-9)
-    df.loc['triple', 'f1'] = 2 * df.loc['triple', 'p'] * df.loc['triple', 'r'] / (df.loc['triple', 'p'] + df.loc['triple', 'r'] + 1e-9)
+    df.loc['triple', 'f1'] = 2 * df.loc['triple', 'p'] * df.loc['triple', 'r'] / (
+                df.loc['triple', 'p'] + df.loc['triple', 'r'] + 1e-9)
 
     # 计算 triple 的中间变量（如果后续需要单独使用）
     triple_precision = df.loc['triple', 'TP'] / (df.loc['triple', 'PRED'] + 1e-9)
