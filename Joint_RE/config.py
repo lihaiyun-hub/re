@@ -38,7 +38,7 @@ class Config(object):
         # self.bert_config = BertConfig.from_pretrained(os.path.join(self.bert_path, 'bert_config.json'))
         self.learning_rate = 1e-5
         self.bert_dim = 768
-        self.epochs = 20
+        self.epochs = 40
 
 
 if __name__ == '__main__':
