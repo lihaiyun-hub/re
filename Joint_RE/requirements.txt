@@ -1,3 +1,2 @@
-
+fastNLP==1.0.1
 tqdm==4.67.1
-transformers==4.49.0
